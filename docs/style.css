@@ -433,7 +433,6 @@
         }
         
         .error-message {
-            color: #C9E5B7;
             background: #FFA7A7;
             padding: 16px;
             border-radius: 18px;
@@ -459,4 +458,5 @@
             h1 {
                 font-size: 2.2rem;
             }
+
         }
