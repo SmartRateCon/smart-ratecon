@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from config import Config
-from services.pdf_extractor import PDFTextExtractor
+from services.pdf_extractor import PDFTextExtractor, RateConfirmationParser
 from services.ai_processor import AIProcessor
+from services.rate_calculator import RateCalculator
 from utils.helpers import save_uploaded_file, format_response_data
 import os
 from dotenv import load_dotenv
