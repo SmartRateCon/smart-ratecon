@@ -10,17 +10,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-@app.route('/api/keys/status', methods=['GET'])
-def get_keys_status():
-    """
-    Endpoint to check status of all API keys
-    """
-    return jsonify({
-        'keys_status': key_manager.get_status(),
-        'total_keys': len(Config.GOOGLE_AI_KEYS),
-        'active_keys': sum(1 for key in Config.GOOGLE_AI_KEYS if key.strip())
-    })
-
 # Додайте цю функцію для перевірки доступних моделей
 def check_available_models():
     """Check which models are available"""
@@ -28,7 +17,7 @@ def check_available_models():
         import google.generativeai as genai
         from google.api_core import exceptions
         
-        api_key = os.environ.get('GOOGLE_AI_KEY')
+        api_key = os.environ.get('GOOGLE_AI_KEY_1') or os.environ.get('GOOGLE_AI_KEY')
         if not api_key:
             print("No Google AI API key found")
             return
@@ -72,9 +61,6 @@ CORS(app, origins=[
     "https://smartratecon.github.io",
     "https://smart-ratecon.onrender.com"
 ])
-
-from flask_cors import CORS
-from config import Config
 
 # Ensure upload directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -138,15 +124,27 @@ def health_check():
     """
     Health check endpoint
     """
-    has_google_key = bool(os.environ.get('GOOGLE_AI_KEY'))
+    has_google_key = bool(os.environ.get('GOOGLE_AI_KEY_1') or os.environ.get('GOOGLE_AI_KEY'))
     return jsonify({
         'status': 'healthy',
         'message': 'SMART RC API is running',
         'ai_service': 'google_gemini',
-        'google_ai_configured': has_google_key
+        'google_ai_configured': has_google_key,
+        'available_keys': len([k for k in Config.GOOGLE_AI_KEYS if k.strip()])
+    })
+
+@app.route('/api/keys/status', methods=['GET'])
+def get_keys_status():
+    """
+    Endpoint to check status of all API keys
+    """
+    return jsonify({
+        'keys_status': key_manager.get_status(),
+        'total_keys': len(Config.GOOGLE_AI_KEYS),
+        'active_keys': sum(1 for key in Config.GOOGLE_AI_KEYS if key.strip())
     })
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     debug = os.environ.get('DEBUG', 'False').lower() == 'true'
-    app.run(host='0.0.0.0', port=port, debug=debug)    
+    app.run(host='0.0.0.0', port=port, debug=debug)
