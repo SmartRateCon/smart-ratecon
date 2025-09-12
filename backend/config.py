@@ -11,8 +11,9 @@ class Config:
     ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
     
     # Для CORS
-    CORS_ORIGINS = [
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-        "https://github.com/SmartRateCon/smart-ratecon.git"
-    ]
+CORS_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000", 
+    "https://smartratecon.github.io/",
+    "https://smart-ratecon.onrender.com/"
+]
