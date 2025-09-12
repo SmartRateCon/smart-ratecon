@@ -3,11 +3,23 @@ from flask_cors import CORS
 from config import Config
 from services.pdf_extractor import PDFTextExtractor
 from services.ai_processor import AIProcessor
+from services.key_manager import key_manager
 from utils.helpers import save_uploaded_file, format_response_data
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
+
+@app.route('/api/keys/status', methods=['GET'])
+def get_keys_status():
+    """
+    Endpoint to check status of all API keys
+    """
+    return jsonify({
+        'keys_status': key_manager.get_status(),
+        'total_keys': len(Config.GOOGLE_AI_KEYS),
+        'active_keys': sum(1 for key in Config.GOOGLE_AI_KEYS if key.strip())
+    })
 
 # Додайте цю функцію для перевірки доступних моделей
 def check_available_models():
