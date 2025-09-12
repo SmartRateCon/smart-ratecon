@@ -211,19 +211,11 @@
             });
             
             // File upload change event
- fileUpload.addEventListener('change', function() {
-    if (fileUpload.files.length) {
-        uploadedFile = fileUpload.files[0];
-        const fileName = uploadedFile.name;
-        
-        // Просто оновіть текст
-        dropZone.querySelector('.upload-text').textContent = fileName;
-        
-        hideError();
-        
-        // Не очищуйте value - це дозволить повторний вибір
-    }
-});
+            fileUpload.addEventListener('change', function() {
+                if (fileUpload.files.length) {
+                    handleFileUpload(fileUpload.files[0]);
+                }
+            });
             
             function handleFileUpload(file) {
                 const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
