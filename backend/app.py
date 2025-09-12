@@ -54,7 +54,12 @@ check_available_models()
 
 app = Flask(__name__)
 app.config.from_object(Config)
-CORS(app, origins=app.config['CORS_ORIGINS']) 
+CORS(app, origins=[
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://smartratecon.github.io",
+    "https://smart-ratecon.onrender.com"
+])
 
 from flask_cors import CORS
 from config import Config
