@@ -96,17 +96,16 @@ def analyze_rate_confirmation():
         print(f"Extracted text length: {len(extracted_text)} characters")
         
         try:
-    ai_processor = AIProcessor()
-    processed_data = ai_processor.process(extracted_text, deadhead)
-    
-    if 'error' in processed_data:
-        print(f"AI Processing error: {processed_data['error']}")
-        return jsonify({'error': processed_data['error']}), 500
-        
-except Exception as e:
-    print(f"AI Processor initialization failed: {str(e)}")
-    return jsonify({'error': f'AI service unavailable: {str(e)}'}), 500
-
+            ai_processor = AIProcessor()
+            processed_data = ai_processor.process(extracted_text, deadhead)
+            
+            if 'error' in processed_data:
+                print(f"AI Processing error: {processed_data['error']}")
+                return jsonify({'error': processed_data['error']}), 500
+                
+        except Exception as e:
+            print(f"AI Processor initialization failed: {str(e)}")
+            return jsonify({'error': f'AI service unavailable: {str(e)}'}), 500
         
         # Check for AI errors
         if 'error' in processed_data:
